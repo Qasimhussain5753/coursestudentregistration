@@ -20,6 +20,7 @@ const validate_pipe_1 = require("../shared/validate.pipe");
 const platform_express_1 = require("@nestjs/platform-express");
 const multer_1 = require("multer");
 const path = require("path");
+const microservices_1 = require("@nestjs/microservices");
 exports.UploadFileInterceptor = {
     storage: multer_1.diskStorage({
         destination: './uploads',
@@ -76,7 +77,32 @@ let StudentController = class StudentController {
             body.image = file.filename;
             body.directory_path = file.path;
         }
+        console.log('body data', body);
         return this.studentService.create(body);
+    }
+    async createdStudent(data) {
+        try {
+            return this.studentService.create(data);
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+    async updateStudent(data) {
+        try {
+            return this.studentService.update(data.id, data.data);
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+    async deleteStudent(data) {
+        try {
+            return this.studentService.delete(data);
+        }
+        catch (err) {
+            console.log(err);
+        }
     }
 };
 __decorate([
@@ -116,6 +142,24 @@ __decorate([
     __metadata("design:paramtypes", [Object, student_dto_1.StudentDto]),
     __metadata("design:returntype", Object)
 ], StudentController.prototype, "uploadFile", null);
+__decorate([
+    microservices_1.EventPattern('student_created'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], StudentController.prototype, "createdStudent", null);
+__decorate([
+    microservices_1.EventPattern('student_update'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], StudentController.prototype, "updateStudent", null);
+__decorate([
+    microservices_1.EventPattern('student_delete'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], StudentController.prototype, "deleteStudent", null);
 StudentController = __decorate([
     common_1.Controller('student'),
     __metadata("design:paramtypes", [student_service_1.StudentService])

@@ -21,13 +21,11 @@ let AuthenticationGuard = class AuthenticationGuard {
         const request = context.switchToHttp().getRequest();
         const body = request.body;
         if (body) {
-            console.log('body called ');
             try {
                 const data = await this.authenticationService.registration(body);
                 return data;
             }
             catch (err) {
-                console.log('error called');
                 throw new common_1.HttpException(err.message, common_1.HttpStatus.UNAUTHORIZED);
             }
         }

@@ -17,7 +17,6 @@ const common_1 = require("@nestjs/common");
 const courses_service_1 = require("./courses.service");
 const courses_dto_1 = require("./courses.dto");
 const validate_pipe_1 = require("../shared/validate.pipe");
-const nest_keycloak_connect_1 = require("nest-keycloak-connect");
 let CoursesController = class CoursesController {
     constructor(coursesService) {
         this.coursesService = coursesService;
@@ -40,14 +39,12 @@ let CoursesController = class CoursesController {
 };
 __decorate([
     common_1.Get(),
-    nest_keycloak_connect_1.Roles('user'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], CoursesController.prototype, "showAllCourses", null);
 __decorate([
     common_1.Post(),
-    nest_keycloak_connect_1.Roles('user'),
     common_1.UsePipes(new validate_pipe_1.ValidationPipe()),
     __param(0, common_1.Body()),
     __metadata("design:type", Function),

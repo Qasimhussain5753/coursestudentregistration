@@ -20,6 +20,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { v4 as uuidv4 } from 'uuid';
 import { diskStorage } from 'multer';
 import * as path from 'path';
+import { EventPattern } from '@nestjs/microservices';
 
 export const UploadFileInterceptor = {
   storage: diskStorage({
@@ -97,6 +98,31 @@ export class StudentController {
       body.image = file.filename;
       body.directory_path = file.path;
     }
+    console.log('body data', body);
     return this.studentService.create(body);
+  }
+  @EventPattern('student_created')
+  async createdStudent(data: any) {
+    try {
+      return this.studentService.create(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  @EventPattern('student_update')
+  async updateStudent(data: any) {
+    try {
+      return this.studentService.update(data.id, data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  @EventPattern('student_delete')
+  async deleteStudent(data: any) {
+    try {
+      return this.studentService.delete(data);
+    } catch (err) {
+      console.log(err);
+    }
   }
 }

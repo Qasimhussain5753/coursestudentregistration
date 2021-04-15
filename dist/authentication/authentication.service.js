@@ -40,15 +40,6 @@ let AuthenticationService = class AuthenticationService {
     }
     async registration(body) {
         console.log('registration called', body);
-        const formBody = [];
-        for (const property in body) {
-            const encodedKey = encodeURIComponent(property);
-            const encodedValue = encodeURIComponent(body[property]);
-            formBody.push(encodedKey + '=' + encodedValue);
-        }
-        const data = formBody.join('&');
-        console.log('form body', formBody);
-        console.log('form data', data);
         const url = `${process.env.KEYCLOAK_BASE_URL}/auth/realms/${process.env.KEYCLOAK_REALM}/protocol/openid-connect/token`;
         try {
             const response = await this.httpService

@@ -11,18 +11,15 @@ import {
 import { CoursesService } from './courses.service';
 import { CoursesDto } from './courses.dto';
 import { ValidationPipe } from '../shared/validate.pipe';
-import { AllowAnyRole, Roles } from 'nest-keycloak-connect';
 @Controller('courses')
 export class CoursesController {
   constructor(private coursesService: CoursesService) {}
   @Get()
-  @Roles('user')
   showAllCourses() {
     return this.coursesService.showAll();
   }
 
   @Post()
-  @Roles('user')
   @UsePipes(new ValidationPipe())
   createCourse(@Body() data: CoursesDto) {
     return this.coursesService.create(data);

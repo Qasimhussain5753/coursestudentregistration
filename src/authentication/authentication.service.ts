@@ -39,18 +39,11 @@ export class AuthenticationService {
       throw new AuthenticationError(e.message);
     }
   }
-
+  /*
+ Registration
+* */
   async registration(body): Promise<any> {
     console.log('registration called', body);
-    const formBody = [];
-    for (const property in body) {
-      const encodedKey = encodeURIComponent(property);
-      const encodedValue = encodeURIComponent(body[property]);
-      formBody.push(encodedKey + '=' + encodedValue);
-    }
-    const data = formBody.join('&');
-    console.log('form body', formBody);
-    console.log('form data', data);
     // http://localhost:9990/auth/realms/courseregister/protocol/openid-connect/token
     const url = `${process.env.KEYCLOAK_BASE_URL}/auth/realms/${process.env.KEYCLOAK_REALM}/protocol/openid-connect/token`;
     try {

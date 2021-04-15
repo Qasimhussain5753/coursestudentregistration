@@ -24,12 +24,10 @@ export class AuthenticationGuard implements CanActivate {
     const request: Request = context.switchToHttp().getRequest();
     const body = request.body;
     if (body) {
-      console.log('body called ');
       try {
         const data = await this.authenticationService.registration(body);
         return data;
       } catch (err) {
-        console.log('error called');
         throw new HttpException(err.message, HttpStatus.UNAUTHORIZED);
       }
     }
@@ -57,7 +55,6 @@ export class AuthenticationGuard implements CanActivate {
       console.log(data);
       return data;
     } catch (e) {
-      // console.log('error', e);
       throw new HttpException(e.message, HttpStatus.UNAUTHORIZED);
     }
   }

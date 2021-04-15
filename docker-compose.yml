@@ -2,41 +2,39 @@
 version: '3.5'
 
 services:
+  nestjs:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    image: tusharchy/nest-and-postgres-application:latest
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASS=${POSTGRES_PASSWORD}
+      - APP_PORT=${APP_PORT}
+    ports:
+      - "4000:4000"
+    container_name: courseregister
+    depends_on:
+      - postgres
+    volumes:
+      - .:/app
+      - /app/node_modules
   postgres:
-    container_name: postgres_container
+    container_name: pg1
     image: postgres
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      PGDATA: /data/postgres
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      PGDATA: /pgdata
     volumes:
-      - postgres:/data/postgres
+      - /pgdata:/pgdata
     ports:
       - "5432:5432"
     networks:
       - postgres
     restart: unless-stopped
-
-  pgadmin:
-    container_name: pgadmin_container
-    image: dpage/pgadmin4
-    environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
-      PGADMIN_CONFIG_SERVER_MODE: 'False'
-    volumes:
-      - pgadmin:/root/.pgadmin
-
-    ports:
-      - "${PGADMIN_PORT:-8080}:80"
-    networks:
-      - postgres
-    restart: unless-stopped
-
 networks:
   postgres:
     driver: bridge
-
 volumes:
   postgres:
-  pgadmin:

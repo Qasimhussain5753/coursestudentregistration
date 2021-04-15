@@ -24,6 +24,10 @@ let StudentService = class StudentService {
     async showAll() {
         return await this.studentRepository.find();
     }
+    async createStudentData(data) {
+        const student = await this.studentRepository.create(data);
+        const res = await this.studentRepository.save(student);
+    }
     async create(data) {
         try {
             const student = await this.studentRepository.create(data);

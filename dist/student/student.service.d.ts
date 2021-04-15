@@ -5,6 +5,7 @@ export declare class StudentService {
     private studentRepository;
     constructor(studentRepository: Repository<Student>);
     showAll(): Promise<Student[]>;
+    createStudentData(data: StudentDto): Promise<void>;
     create(data: StudentDto): Promise<{
         message: string;
         data: Student;

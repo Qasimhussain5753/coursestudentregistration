@@ -20,7 +20,10 @@ export class StudentService {
   async showAll() {
     return await this.studentRepository.find();
   }
-
+  async createStudentData(data: StudentDto) {
+    const student = await this.studentRepository.create(data);
+    const res = await this.studentRepository.save(student);
+  }
   async create(data: StudentDto) {
     try {
       const student = await this.studentRepository.create(data);
